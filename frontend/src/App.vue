@@ -1,10 +1,42 @@
 <template>
+<p v-if="error">Something went wrong...</p>
+  <p v-if="loading">Loading...</p>
+  <p v-else >
+    {{ result.projects.title }}
+  </p>
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
   <router-view />
 </template>
+
+<script>
+import gql from "graphql-tag";
+import { useQuery } from "@vue/apollo-composable";
+
+const PROJECTS_QUERY = gql`
+  query Projects {
+    projects {
+    id
+    title
+  }
+  }
+`;
+
+export default {
+  name: "App",
+  setup() {
+    const { result, loading, error } = useQuery(PROJECTS_QUERY);
+    console.log('cheema', result)
+    return {
+      result,
+      loading,
+      error,
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
