@@ -1,8 +1,8 @@
 <template>
 <p v-if="error">Something went wrong...</p>
   <p v-if="loading">Loading...</p>
-  <p v-else >
-    {{ result.projects.title }}
+  <p v-else v-for="project in result.projects" :key="project.id">
+    {{ project.title }}
   </p>
   <nav>
     <router-link to="/">Home</router-link> |
@@ -28,7 +28,6 @@ export default {
   name: "App",
   setup() {
     const { result, loading, error } = useQuery(PROJECTS_QUERY);
-    console.log('cheema', result)
     return {
       result,
       loading,
